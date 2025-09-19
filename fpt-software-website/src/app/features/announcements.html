@@ -1,0 +1,131 @@
+<div class="announcements-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">{{ translate('announcements.title') }}</h1>
+    <p class="page-description">{{ translate('announcements.description') }}</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <nz-spin nzSize="large">
+      <div class="loading-content">
+        <p>{{ translate('announcements.loading') }}</p>
+      </div>
+    </nz-spin>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <nz-alert
+      nzType="error"
+      [nzMessage]="error"
+      nzShowIcon
+      [nzAction]="retryAction">
+    </nz-alert>
+  </div>
+
+  <!-- Announcements Grid -->
+  <div *ngIf="!loading && !error" class="announcements-container">
+    <nz-row [nzGutter]="[24, 24]">
+      <nz-col
+        *ngFor="let announcement of announcements"
+        [nzXs]="24"
+        [nzSm]="12"
+        [nzMd]="12"
+        [nzLg]="8"
+        [nzXl]="8">
+        <nz-card
+          class="announcement-card"
+          [nzHoverable]="true">
+          
+          <!-- Announcement Header -->
+          <div class="announcement-header">
+            <div class="announcement-meta">
+              <span class="announcement-date">
+                <span nz-icon nzType="calendar" nzTheme="outline"></span>
+                {{ formatDate(announcement.publishedAt) }}
+              </span>
+              <nz-tag 
+                [nzColor]="getPriorityColor(announcement.priority)"
+                class="priority-tag">
+                {{ translate('announcements.priority.' + announcement.priority) }}
+              </nz-tag>
+            </div>
+            <div class="announcement-category">
+              <span nz-icon nzType="tag" nzTheme="outline"></span>
+              {{ announcement.category }}
+            </div>
+          </div>
+
+          <!-- Announcement Content -->
+          <div class="announcement-content">
+            <h3 class="announcement-title">{{ announcement.title }}</h3>
+            <p class="announcement-summary">{{ announcement.summary }}</p>
+            
+            <!-- Author and Read Time -->
+            <div class="announcement-footer">
+              <div class="announcement-author">
+                <span nz-icon nzType="user" nzTheme="outline"></span>
+                {{ announcement.author }}
+              </div>
+              <div class="announcement-read-time">
+                <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+                {{ announcement.readTime }} {{ translate('announcements.minRead') }}
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="announcement-tags" *ngIf="announcement.tags && announcement.tags.length > 0">
+              <nz-tag
+                *ngFor="let tag of announcement.tags.slice(0, 3)"
+                class="announcement-tag">
+                {{ tag }}
+              </nz-tag>
+              <span 
+                *ngIf="announcement.tags.length > 3" 
+                class="more-tags">
+                +{{ announcement.tags.length - 3 }} {{ translate('announcements.more') }}
+              </span>
+            </div>
+          </div>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+
+    <!-- Empty State -->
+    <div *ngIf="announcements.length === 0" class="empty-state">
+      <div class="empty-content">
+        <div class="empty-icon">📢</div>
+        <h3>{{ translate('announcements.noAnnouncements') }}</h3>
+        <button class="retry-button" (click)="retry()">
+          {{ translate('announcements.retry') }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="total > pageSize" class="pagination-container">
+      <nz-pagination
+        [nzPageIndex]="currentPage"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzShowSizeChanger]="false"
+        [nzShowQuickJumper]="true"
+        [nzShowTotal]="totalTemplate"
+        (nzPageIndexChange)="onPageChange($event)">
+      </nz-pagination>
+    </div>
+  </div>
+</div>
+
+<!-- Retry Action Template -->
+<ng-template #retryAction>
+  <button class="retry-button-small" (click)="retry()">
+    {{ translate('announcements.retry') }}
+  </button>
+</ng-template>
+
+<!-- Pagination Total Template -->
+<ng-template #totalTemplate let-total let-range="range">
+  {{ translate('announcements.showing') }} {{ range[0] }}-{{ range[1] }} {{ translate('announcements.of') }} {{ total }} {{ translate('announcements.items') }}
+</ng-template>

@@ -1,0 +1,66 @@
+{
+  "navbar": {
+    "logo": "FPT Software",
+    "home": "Home",
+    "about": "About",
+    "industries": "Industries",
+    "announcements": "Announcements",
+    "contact": "Contact"
+  },
+  "footer": {
+    "contactUs": "Contact us",
+    "aboutUs": "About us",
+    "statistics": "Statistics",
+    "address": "FPT Software Building",
+    "location": "Keangnam Hanoi Landmark Tower",
+    "city": "Hanoi, Vietnam",
+    "phone": "+84 24 7300 8866",
+    "email": "contact@fpt-software.com",
+    "description1": "FPT Software is a leading technology corporation in Vietnam, providing innovative software solutions and digital transformation services globally.",
+    "description2": "We specialize in software development, AI, blockchain, and cloud computing solutions for enterprises worldwide.",
+    "visitorsToday": "Visitors Today",
+    "yearsExperience": "Years Experience",
+    "countriesServed": "Countries Served",
+    "copyright": "FPT Software. All rights reserved."
+  },
+  "common": {
+    "language": "Language",
+    "english": "English",
+    "vietnamese": "Tiếng Việt"
+  },
+  "industries": {
+    "title": "Industries We Serve",
+    "description": "Discover the diverse industries where FPT Software delivers innovative solutions and digital transformation services.",
+    "loading": "Loading industries...",
+    "services": "Key Services",
+    "more": "more",
+    "learnMore": "Learn More",
+    "noIndustries": "No industries available at the moment.",
+    "retry": "Retry",
+    "showing": "Showing",
+    "of": "of",
+    "items": "items"
+  },
+  "industryDetail": {
+    "loading": "Loading industry details...",
+    "backToIndustries": "Back to Industries",
+    "services": "Our Services"
+  },
+  "announcements": {
+    "title": "Latest Announcements",
+    "description": "Stay updated with the latest news, press releases, and company updates from FPT Software.",
+    "loading": "Loading announcements...",
+    "priority": {
+      "high": "High Priority",
+      "medium": "Medium Priority",
+      "low": "Low Priority"
+    },
+    "minRead": "min read",
+    "more": "more",
+    "noAnnouncements": "No announcements available at the moment.",
+    "retry": "Retry",
+    "showing": "Showing",
+    "of": "of",
+    "items": "items"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "navbar": {
+    "logo": "FPT Software",
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "industries": "Lĩnh vực",
+    "announcements": "Thông báo",
+    "contact": "Liên hệ"
+  },
+  "footer": {
+    "contactUs": "Liên hệ với chúng tôi",
+    "aboutUs": "Về chúng tôi",
+    "statistics": "Thống kê",
+    "address": "Tòa nhà FPT Software",
+    "location": "Keangnam Hanoi Landmark Tower",
+    "city": "Hà Nội, Việt Nam",
+    "phone": "+84 24 7300 8866",
+    "email": "contact@fpt-software.com",
+    "description1": "FPT Software là tập đoàn công nghệ hàng đầu tại Việt Nam, cung cấp các giải pháp phần mềm sáng tạo và dịch vụ chuyển đổi số toàn cầu.",
+    "description2": "Chúng tôi chuyên về phát triển phần mềm, AI, blockchain và các giải pháp điện toán đám mây cho các doanh nghiệp trên toàn thế giới.",
+    "visitorsToday": "Lượt truy cập hôm nay",
+    "yearsExperience": "Năm kinh nghiệm",
+    "countriesServed": "Quốc gia phục vụ",
+    "copyright": "FPT Software. Bảo lưu mọi quyền."
+  },
+  "common": {
+    "language": "Ngôn ngữ",
+    "english": "English",
+    "vietnamese": "Tiếng Việt"
+  },
+  "industries": {
+    "title": "Các Lĩnh Vực Chúng Tôi Phục Vụ",
+    "description": "Khám phá các lĩnh vực đa dạng nơi FPT Software cung cấp các giải pháp sáng tạo và dịch vụ chuyển đổi số.",
+    "loading": "Đang tải các lĩnh vực...",
+    "services": "Dịch Vụ Chính",
+    "more": "thêm",
+    "learnMore": "Tìm Hiểu Thêm",
+    "noIndustries": "Hiện tại chưa có lĩnh vực nào.",
+    "retry": "Thử Lại",
+    "showing": "Hiển thị",
+    "of": "trong",
+    "items": "mục"
+  },
+  "industryDetail": {
+    "loading": "Đang tải chi tiết lĩnh vực...",
+    "backToIndustries": "Quay Lại Danh Sách",
+    "services": "Dịch Vụ Của Chúng Tôi"
+  },
+  "announcements": {
+    "title": "Thông Báo Mới Nhất",
+    "description": "Cập nhật tin tức mới nhất, thông cáo báo chí và các cập nhật công ty từ FPT Software.",
+    "loading": "Đang tải thông báo...",
+    "priority": {
+      "high": "Ưu Tiên Cao",
+      "medium": "Ưu Tiên Trung Bình",
+      "low": "Ưu Tiên Thấp"
+    },
+    "minRead": "phút đọc",
+    "more": "thêm",
+    "noAnnouncements": "Hiện tại chưa có thông báo nào.",
+    "retry": "Thử Lại",
+    "showing": "Hiển thị",
+    "of": "trong",
+    "items": "mục"
+  }
+}

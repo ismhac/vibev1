@@ -1,0 +1,110 @@
+<nz-layout class="navbar-layout">
+  <nz-header class="navbar-header">
+    <div class="navbar-container">
+      <!-- Logo -->
+      <div class="navbar-logo">
+        <span class="logo-icon">🏢</span>
+        <span class="logo-text">{{ translate('navbar.logo') }}</span>
+      </div>
+
+      <!-- Navigation Menu -->
+      <ul nz-menu nzMode="horizontal" nzTheme="light" class="navbar-menu">
+        <li nz-menu-item [nzSelected]="isRouteActive('/home')" routerLink="/home">
+          <span>{{ translate('navbar.home') }}</span>
+        </li>
+        <li nz-menu-item [nzSelected]="isRouteActive('/about')" routerLink="/about">
+          <span>{{ translate('navbar.about') }}</span>
+        </li>
+        <li nz-menu-item [nzSelected]="isRouteActive('/industries')" routerLink="/industries">
+          <span>{{ translate('navbar.industries') }}</span>
+        </li>
+        <li nz-menu-item [nzSelected]="isRouteActive('/announcements')" routerLink="/announcements">
+          <span>{{ translate('navbar.announcements') }}</span>
+        </li>
+        <li nz-menu-item [nzSelected]="isRouteActive('/contact')" routerLink="/contact">
+          <span>{{ translate('navbar.contact') }}</span>
+        </li>
+      </ul>
+
+      <!-- User Menu / Admin Access -->
+      <div class="navbar-user-menu">
+        <!-- Admin/Editor Menu -->
+        <div *ngIf="isAuthenticated && isAdminOrEditor()" class="admin-menu">
+          <div class="admin-dropdown">
+            <button nz-button nzType="primary" class="admin-button" (click)="toggleAdminMenu()">
+              <span nz-icon nzType="setting" nzTheme="outline"></span>
+              <span>Admin</span>
+              <span nz-icon nzType="down" nzTheme="outline"></span>
+            </button>
+            <div class="admin-menu-items" [class.show]="showAdminMenu">
+              <div class="admin-menu-item" (click)="goToAdmin()">
+                <span nz-icon nzType="dashboard" nzTheme="outline"></span>
+                <span>Dashboard</span>
+              </div>
+              <div class="admin-menu-item" (click)="goToAdmin()">
+                <span nz-icon nzType="user" nzTheme="outline"></span>
+                <span>User Management</span>
+              </div>
+              <div class="admin-menu-item" (click)="goToAdmin()">
+                <span nz-icon nzType="bank" nzTheme="outline"></span>
+                <span>Industry Management</span>
+              </div>
+              <div class="admin-menu-item" (click)="goToAdmin()">
+                <span nz-icon nzType="sound" nzTheme="outline"></span>
+                <span>Announcement Management</span>
+              </div>
+              <div class="admin-menu-divider"></div>
+              <div class="admin-menu-item" (click)="logout()">
+                <span nz-icon nzType="logout" nzTheme="outline"></span>
+                <span>Logout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login Button for non-authenticated users -->
+        <div *ngIf="!isAuthenticated" class="login-menu">
+          <button nz-button nzType="primary" (click)="goToLogin()">
+            <span nz-icon nzType="login" nzTheme="outline"></span>
+            <span>Login</span>
+          </button>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="navbar-language-switcher">
+          <div class="language-dropdown">
+            <button nz-button nzType="text" class="language-button" (click)="toggleLanguageMenu()">
+              <span nz-icon nzType="global" nzTheme="outline"></span>
+              <span>{{ translate('common.language') }}</span>
+              <span nz-icon nzType="down" nzTheme="outline"></span>
+            </button>
+            <div class="language-menu" [class.show]="showLanguageMenu">
+              <div class="language-option" 
+                   (click)="switchLanguage('en')" 
+                   (keyup.enter)="switchLanguage('en')"
+                   (keyup.space)="switchLanguage('en')"
+                   [class.active]="currentLanguage === 'en'"
+                   tabindex="0"
+                   role="button"
+                   [attr.aria-label]="translate('common.english')">
+                <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+                {{ translate('common.english') }}
+              </div>
+              <div class="language-option" 
+                   (click)="switchLanguage('vi')" 
+                   (keyup.enter)="switchLanguage('vi')"
+                   (keyup.space)="switchLanguage('vi')"
+                   [class.active]="currentLanguage === 'vi'"
+                   tabindex="0"
+                   role="button"
+                   [attr.aria-label]="translate('common.vietnamese')">
+                <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+                {{ translate('common.vietnamese') }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-header>
+</nz-layout>

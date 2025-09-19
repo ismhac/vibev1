@@ -1,0 +1,337 @@
+// Navbar Layout
+.navbar-layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+// Header Styling
+.navbar-header {
+  background-color: #ffffff;
+  border-bottom: 2px solid #ff7700; // FPT Orange border
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  height: 64px;
+  line-height: 64px;
+}
+
+// Container Layout
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  gap: 20px;
+}
+
+// Logo Section
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .logo-icon {
+    font-size: 32px;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .logo-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ff7700; // FPT Orange
+    white-space: nowrap;
+  }
+}
+
+// Navigation Menu
+.navbar-menu {
+  background-color: transparent;
+  border: none;
+  line-height: 62px; // Align with header height
+
+  // Menu Items
+  ::ng-deep .ant-menu-item {
+    border-bottom: 2px solid transparent;
+    margin: 0 8px;
+    padding: 0 16px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #ff7700; // FPT Orange on hover
+      border-bottom-color: #ff7700;
+      background-color: rgba(255, 119, 0, 0.1);
+    }
+
+    &.ant-menu-item-selected {
+      color: #ff7700; // FPT Orange for active item
+      border-bottom-color: #ff7700;
+      background-color: rgba(255, 119, 0, 0.1);
+      font-weight: 600;
+    }
+
+    span {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+}
+
+// Language Switcher
+.navbar-language-switcher {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .language-dropdown {
+    position: relative;
+  }
+
+  .language-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #333;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #ff7700;
+      color: #ff7700;
+    }
+
+    span[nz-icon] {
+      font-size: 16px;
+    }
+  }
+
+  .language-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 160px;
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 119, 0, 0.1);
+        color: #ff7700;
+      }
+
+      &.active {
+        background-color: rgba(255, 119, 0, 0.15);
+        color: #ff7700;
+        font-weight: 600;
+      }
+
+      span[nz-icon] {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .navbar-logo {
+    .logo-text {
+      display: none; // Hide logo text on mobile
+    }
+
+    .logo-icon {
+      font-size: 24px;
+    }
+  }
+
+  .navbar-menu {
+    ::ng-deep .ant-menu-item {
+      margin: 0 4px;
+      padding: 0 8px;
+
+      span {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .navbar-language-switcher {
+    .language-button {
+      padding: 6px 12px;
+      font-size: 12px;
+
+      span:not([nz-icon]) {
+        display: none; // Hide "Language" text on mobile
+      }
+    }
+  }
+}
+
+// User Menu / Admin Access
+.navbar-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+// Admin Menu
+.admin-menu {
+  position: relative;
+
+  .admin-dropdown {
+    position: relative;
+  }
+
+  .admin-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ff7700, #ff9500);
+    border: none;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, #e66a00, #e68500);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 119, 0, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .admin-menu-items {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .admin-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      color: #333;
+      font-size: 14px;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      span[nz-icon] {
+        font-size: 16px;
+        color: #666;
+      }
+    }
+
+    .admin-menu-divider {
+      height: 1px;
+      background-color: #e8e8e8;
+      margin: 4px 0;
+    }
+  }
+}
+
+// Login Menu
+.login-menu {
+  .ant-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ff7700;
+    border-color: #ff7700;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #e66a00;
+      border-color: #e66a00;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 119, 0, 0.3);
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-menu {
+    ::ng-deep .ant-menu-item {
+      margin: 0 2px;
+      padding: 0 6px;
+
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .navbar-user-menu {
+    gap: 8px;
+  }
+
+  .admin-menu .admin-button,
+  .login-menu .ant-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+
+    span:not([nz-icon]) {
+      display: none; // Hide text on very small screens
+    }
+  }
+}

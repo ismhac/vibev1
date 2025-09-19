@@ -1,0 +1,33 @@
+<div class="admin-dashboard">
+  <div class="welcome-section">
+    <h2>Welcome to FPT Software Admin Portal</h2>
+    <p>You are logged in as <strong>{{ userEmail }}</strong></p>
+    <p>Your role: <strong>{{ userRole | titlecase }}</strong></p>
+  </div>
+
+  <div class="admin-cards">
+    <div class="admin-card">
+      <h3>Content Management</h3>
+      <p>Manage announcements, industries, and other content</p>
+      <button class="card-button">Manage Content</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>User Management</h3>
+      <p>Manage users, roles, and permissions</p>
+      <button class="card-button">Manage Users</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>Analytics</h3>
+      <p>View reports and analytics</p>
+      <button class="card-button">View Analytics</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>Settings</h3>
+      <p>Configure system settings</p>
+      <button class="card-button">Settings</button>
+    </div>
+  </div>
+</div>

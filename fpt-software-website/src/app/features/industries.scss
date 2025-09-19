@@ -1,0 +1,360 @@
+// Industries Page Layout
+.industries-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Page Header
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+
+  .page-title {
+    color: #ff7700; // FPT Software orange
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .page-description {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// Loading State
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+
+  .loading-content {
+    text-align: center;
+    
+    p {
+      margin-top: 16px;
+      color: #666;
+      font-size: 16px;
+    }
+  }
+}
+
+// Error State
+.error-container {
+  margin: 40px 0;
+
+  .retry-button-small {
+    background: #ff7700;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+
+    &:hover {
+      background: #e66a00;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// Industries Grid
+.industries-container {
+  .industry-card {
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-color: #ff7700;
+    }
+
+    // Industry Icon
+    .industry-icon {
+      text-align: center;
+      padding: 24px 0 16px;
+      background: linear-gradient(135deg, #ff7700, #ff9500);
+      margin: -24px -24px 16px -24px;
+
+      .icon-emoji {
+        font-size: 3rem;
+        display: block;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      }
+    }
+
+    // Industry Content
+    .industry-content {
+      padding: 0 24px;
+
+      .industry-name {
+        color: #333;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        line-height: 1.3;
+        min-height: 2.6rem; // Ensure consistent height
+      }
+
+      .industry-description {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 4.5rem; // Ensure consistent height
+      }
+
+      // Services Preview
+      .services-preview {
+        margin-bottom: 16px;
+
+        .services-label {
+          font-size: 0.85rem;
+          color: #999;
+          margin-bottom: 8px;
+          font-weight: 500;
+        }
+
+        .services-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+
+          .service-tag {
+            background: #f5f5f5;
+            color: #666;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid #e8e8e8;
+
+            &.more {
+              background: #ff7700;
+              color: white;
+              border-color: #ff7700;
+            }
+          }
+        }
+      }
+    }
+
+    // Card Footer
+    .card-footer {
+      padding: 16px 24px 24px;
+      text-align: center;
+      border-top: 1px solid #f0f0f0;
+      margin-top: auto;
+
+      .learn-more-button {
+        width: 100%;
+        height: 40px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: transparent;
+        border: 1px solid #ff7700;
+        color: #ff7700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        &:hover {
+          transform: translateY(-1px);
+          background: #ff7700;
+          color: white;
+        }
+
+        .button-icon {
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+
+  .empty-content {
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      color: #666;
+      margin-bottom: 24px;
+      font-size: 1.2rem;
+    }
+
+    .retry-button {
+      background: #ff7700;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #e66a00;
+        transform: translateY(-1px);
+      }
+    }
+  }
+}
+
+// Pagination
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding: 20px 0;
+
+  ::ng-deep .ant-pagination {
+    .ant-pagination-item {
+      border-radius: 6px;
+      border-color: #d9d9d9;
+
+      &:hover {
+        border-color: #ff7700;
+        color: #ff7700;
+      }
+
+      &.ant-pagination-item-active {
+        background-color: #ff7700;
+        border-color: #ff7700;
+        color: white;
+
+        &:hover {
+          background-color: #e66a00;
+          border-color: #e66a00;
+        }
+      }
+    }
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      border-radius: 6px;
+      border-color: #d9d9d9;
+
+      &:hover {
+        border-color: #ff7700;
+        color: #ff7700;
+      }
+    }
+
+    .ant-pagination-jump-prev,
+    .ant-pagination-jump-next {
+      &:hover {
+        color: #ff7700;
+      }
+    }
+
+    .ant-pagination-total-text {
+      color: #666;
+      font-size: 14px;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .industries-page {
+    padding: 16px;
+  }
+
+  .page-header {
+    margin-bottom: 24px;
+
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .page-description {
+      font-size: 1rem;
+    }
+  }
+
+  .industries-container {
+    .industry-card {
+      .industry-icon {
+        padding: 20px 0 12px;
+        margin: -20px -20px 12px -20px;
+
+        .icon-emoji {
+          font-size: 2.5rem;
+        }
+      }
+
+      .industry-content {
+        padding: 0 20px;
+
+        .industry-name {
+          font-size: 1.1rem;
+          min-height: 2.2rem;
+        }
+
+        .industry-description {
+          font-size: 0.9rem;
+          min-height: 4rem;
+        }
+      }
+
+      .card-footer {
+        padding: 12px 20px 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .industries-page {
+    padding: 12px;
+  }
+
+  .page-header {
+    .page-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  .industries-container {
+    .industry-card {
+      .industry-content {
+        .services-tags {
+          .service-tag {
+            font-size: 0.7rem;
+            padding: 3px 6px;
+          }
+        }
+      }
+    }
+  }
+}

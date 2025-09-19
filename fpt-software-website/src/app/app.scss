@@ -1,0 +1,24 @@
+// Main Application Styles
+
+// Main content area - add margins to account for fixed navbar
+.main-content {
+  margin-top: 100px; // Increased margin to ensure content is below navbar
+  min-height: calc(100vh - 100px);
+  padding: 20px 0;
+}
+
+// Global body styles to ensure proper layout
+:host {
+  display: block;
+  height: 100vh;
+  width: 100%;
+}
+
+// Ensure proper scrolling behavior
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}

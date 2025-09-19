@@ -1,0 +1,16 @@
+# Dependencies
+node_modules
+dist
+build
+coverage
+
+# Generated files
+*.d.ts
+
+# Configuration files
+package-lock.json
+angular.json
+
+# Assets
+src/assets
+public

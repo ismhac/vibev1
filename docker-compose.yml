@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: fpt-software-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-fpt_software_root_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-fpt_software_website}
+      MYSQL_USER: ${MYSQL_USER:-fpt_software_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-fpt_software_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - fpt-software-network
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  fpt-software-network:
+    driver: bridge

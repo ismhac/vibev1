@@ -1,0 +1,189 @@
+<div class="users-page">
+  <div class="page-header">
+    <h1>User Management</h1>
+    <p>Manage users, roles, and permissions</p>
+  </div>
+
+  <div class="page-content">
+    <!-- Search and Actions -->
+    <div class="toolbar">
+      <div class="search-section">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search users..."
+          class="search-input"
+          (keyup.enter)="onSearch()"
+        />
+        <button class="search-btn" (click)="onSearch()">Search</button>
+      </div>
+      <button class="add-btn" (click)="onAddUser()">Add User</button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+
+    <!-- Users Table -->
+    <div *ngIf="!loading" class="users-table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last Login</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users" class="user-row">
+            <td>{{ user.id }}</td>
+            <td>{{ user.fullName }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span class="role-badge role-{{ user.role }}">
+                {{ getRoleDisplayName(user.role) }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge" [class]="getStatusClass(user.isActive)">
+                {{ getStatusDisplayName(user.isActive) }}
+              </span>
+            </td>
+            <td>{{ user.lastLoginAt ? (user.lastLoginAt | date:'short') : 'Never' }}</td>
+            <td class="actions">
+              <button class="edit-btn" (click)="onEditUser(user)">Edit</button>
+              <button class="delete-btn" (click)="onDeleteUser(user)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Empty State -->
+      <div *ngIf="users.length === 0" class="empty-state">
+        <p>No users found</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!loading && totalPages > 1" class="pagination">
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        Previous
+      </button>
+      
+      <button 
+        *ngFor="let page of pages" 
+        class="page-btn"
+        [class.active]="page === currentPage"
+        (click)="onPageChange(page)"
+      >
+        {{ page }}
+      </button>
+      
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        Next
+      </button>
+    </div>
+
+    <!-- User Form Modal -->
+    <div *ngIf="showUserForm" class="modal-overlay" (click)="onCancelForm()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>{{ editingUser ? 'Edit User' : 'Add User' }}</h3>
+          <button class="close-btn" (click)="onCancelForm()">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <form class="user-form">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input
+                type="email"
+                id="email"
+                [(ngModel)]="userForm.email"
+                name="email"
+                class="form-input"
+                required
+              />
+            </div>
+            
+            <div class="form-group" *ngIf="!editingUser">
+              <label for="password">Password *</label>
+              <input
+                type="password"
+                id="password"
+                [(ngModel)]="userForm.password"
+                name="password"
+                class="form-input"
+                required
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="fullName">Full Name *</label>
+              <input
+                type="text"
+                id="fullName"
+                [(ngModel)]="userForm.fullName"
+                name="fullName"
+                class="form-input"
+                required
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="role">Role *</label>
+              <select
+                id="role"
+                [(ngModel)]="userForm.role"
+                name="role"
+                class="form-select"
+                required
+              >
+                <option *ngFor="let role of availableRoles" [value]="role">
+                  {{ getRoleDisplayName(role) }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="userForm.isActive"
+                  name="isActive"
+                />
+                Active
+              </label>
+            </div>
+          </form>
+        </div>
+        
+        <div class="modal-footer">
+          <button class="cancel-btn" (click)="onCancelForm()">Cancel</button>
+          <button class="save-btn" (click)="onSaveUser()" [disabled]="loading">
+            {{ loading ? 'Saving...' : (editingUser ? 'Update' : 'Create') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

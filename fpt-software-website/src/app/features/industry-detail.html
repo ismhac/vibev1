@@ -1,0 +1,52 @@
+<div class="industry-detail-page">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <nz-spin nzSize="large">
+      <div class="loading-content">
+        <p>{{ translate('industryDetail.loading') }}</p>
+      </div>
+    </nz-spin>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <nz-alert
+      nzType="error"
+      [nzMessage]="error"
+      nzShowIcon>
+    </nz-alert>
+  </div>
+
+  <!-- Industry Detail Content -->
+  <div *ngIf="industry && !loading && !error" class="industry-content">
+    <!-- Back Button -->
+    <div class="back-button">
+      <button class="back-button-custom" (click)="goBack()">
+        <span class="button-icon">←</span>
+        {{ translate('industryDetail.backToIndustries') }}
+      </button>
+    </div>
+
+    <!-- Industry Header -->
+    <div class="industry-header">
+      <div class="industry-icon">
+        <span class="icon-emoji">{{ industry.icon }}</span>
+      </div>
+      <div class="industry-info">
+        <h1 class="industry-name">{{ industry.name }}</h1>
+        <p class="industry-description">{{ industry.description }}</p>
+      </div>
+    </div>
+
+    <!-- Industry Services -->
+    <div class="industry-services">
+      <h2>{{ translate('industryDetail.services') }}</h2>
+      <div class="services-grid">
+        <div *ngFor="let service of industry.services" class="service-item">
+          <span nz-icon nzType="check-circle" nzTheme="outline" class="service-icon"></span>
+          <span class="service-name">{{ service }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

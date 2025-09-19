@@ -1,0 +1,50 @@
+<nz-layout class="footer-layout">
+  <nz-footer class="footer-content">
+    <div class="footer-container">
+      <!-- Contact Us Column -->
+      <div class="footer-column">
+        <h3 class="footer-title">{{ translate('footer.contactUs') }}</h3>
+        <div class="footer-content-text">
+          <p>📍 {{ translate('footer.address') }}</p>
+          <p>{{ translate('footer.location') }}</p>
+          <p>{{ translate('footer.city') }}</p>
+          <p>📞 {{ translate('footer.phone') }}</p>
+          <p>✉️ {{ translate('footer.email') }}</p>
+        </div>
+      </div>
+
+      <!-- About Us Column -->
+      <div class="footer-column">
+        <h3 class="footer-title">{{ translate('footer.aboutUs') }}</h3>
+        <div class="footer-content-text">
+          <p>{{ translate('footer.description1') }}</p>
+          <p>{{ translate('footer.description2') }}</p>
+        </div>
+      </div>
+
+      <!-- Statistics Column -->
+      <div class="footer-column">
+        <h3 class="footer-title">{{ translate('footer.statistics') }}</h3>
+        <div class="footer-statistics">
+          <div class="stat-item">
+            <span class="stat-number">{{ currentCounter }}</span>
+            <span class="stat-label">{{ translate('footer.visitorsToday') }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">25+</span>
+            <span class="stat-label">{{ translate('footer.yearsExperience') }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">40+</span>
+            <span class="stat-label">{{ translate('footer.countriesServed') }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <p>&copy; {{ currentYear }} {{ translate('footer.copyright') }}</p>
+    </div>
+  </nz-footer>
+</nz-layout>

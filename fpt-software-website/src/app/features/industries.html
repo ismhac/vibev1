@@ -1,0 +1,118 @@
+<div class="industries-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">{{ translate('industries.title') }}</h1>
+    <p class="page-description">{{ translate('industries.description') }}</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <nz-spin nzSize="large">
+      <div class="loading-content">
+        <p>{{ translate('industries.loading') }}</p>
+      </div>
+    </nz-spin>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <nz-alert
+      nzType="error"
+      [nzMessage]="error"
+      nzShowIcon
+      [nzAction]="retryAction">
+    </nz-alert>
+  </div>
+
+  <!-- Industries Grid -->
+  <div *ngIf="!loading && !error" class="industries-container">
+    <nz-row [nzGutter]="[24, 24]">
+      <nz-col
+        *ngFor="let industry of industries"
+        [nzXs]="24"
+        [nzSm]="12"
+        [nzMd]="8"
+        [nzLg]="8"
+        [nzXl]="8">
+        <nz-card
+          class="industry-card"
+          [nzHoverable]="true"
+          [routerLink]="['/industries', industry.id]"
+          (click)="navigateToDetail()">
+          
+          <!-- Industry Icon -->
+          <div class="industry-icon">
+            <span class="icon-emoji">{{ industry.icon }}</span>
+          </div>
+
+          <!-- Industry Content -->
+          <div class="industry-content">
+            <h3 class="industry-name">{{ industry.name }}</h3>
+            <p class="industry-description">{{ industry.description }}</p>
+            
+            <!-- Services Preview -->
+            <div class="services-preview" *ngIf="industry.services && industry.services.length > 0">
+              <div class="services-label">{{ translate('industries.services') }}:</div>
+              <div class="services-tags">
+                <span 
+                  *ngFor="let service of industry.services.slice(0, 3)" 
+                  class="service-tag">
+                  {{ service }}
+                </span>
+                <span 
+                  *ngIf="industry.services.length > 3" 
+                  class="service-tag more">
+                  +{{ industry.services.length - 3 }} {{ translate('industries.more') }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="card-footer">
+            <button class="learn-more-button">
+              <span class="button-icon">→</span>
+              {{ translate('industries.learnMore') }}
+            </button>
+          </div>
+        </nz-card>
+      </nz-col>
+    </nz-row>
+
+    <!-- Empty State -->
+    <div *ngIf="industries.length === 0" class="empty-state">
+      <div class="empty-content">
+        <div class="empty-icon">📋</div>
+        <h3>{{ translate('industries.noIndustries') }}</h3>
+        <button class="retry-button" (click)="retry()">
+          {{ translate('industries.retry') }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="total > pageSize" class="pagination-container">
+      <nz-pagination
+        [nzPageIndex]="currentPage"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzShowSizeChanger]="false"
+        [nzShowQuickJumper]="true"
+        [nzShowTotal]="totalTemplate"
+        (nzPageIndexChange)="onPageChange($event)">
+      </nz-pagination>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination Total Template -->
+<ng-template #totalTemplate let-total let-range="range">
+  {{ translate('industries.showing') }} {{ range[0] }}-{{ range[1] }} {{ translate('industries.of') }} {{ total }} {{ translate('industries.items') }}
+</ng-template>
+
+<!-- Retry Action Template -->
+<ng-template #retryAction>
+  <button class="retry-button-small" (click)="retry()">
+    {{ translate('industries.retry') }}
+  </button>
+</ng-template>

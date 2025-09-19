@@ -1,0 +1,232 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.welcome-section {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #e74c3c, #f39c12, #2ecc71);
+  }
+
+  h2 {
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  p {
+    color: #7f8c8d;
+    font-size: 18px;
+    margin: 12px 0;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+}
+
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.admin-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3498db, #e74c3c);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  h3 {
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.3px;
+  }
+
+  p {
+    color: #7f8c8d;
+    font-size: 15px;
+    margin: 0 0 24px 0;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+}
+
+.card-button {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #2980b9, #1f618d);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .admin-header-content {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .admin-user-info {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .user-details {
+    align-items: center;
+  }
+
+  .admin-main {
+    padding: 20px 10px;
+  }
+
+  .welcome-section {
+    padding: 20px;
+
+    h2 {
+      font-size: 24px;
+    }
+  }
+
+  .admin-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .admin-dashboard {
+    background: #1a1a1a;
+  }
+
+  .admin-header {
+    background: #2c3e50;
+    border-bottom-color: #34495e;
+  }
+
+  .admin-title {
+    color: white;
+  }
+
+  .user-name {
+    color: white;
+  }
+
+  .user-role {
+    color: #bdc3c7;
+  }
+
+  .welcome-section {
+    background: #2c3e50;
+    color: white;
+
+    h2 {
+      color: white;
+    }
+
+    p {
+      color: #bdc3c7;
+    }
+  }
+
+  .admin-card {
+    background: #2c3e50;
+    border-color: #34495e;
+    color: white;
+
+    h3 {
+      color: white;
+    }
+
+    p {
+      color: #bdc3c7;
+    }
+  }
+}

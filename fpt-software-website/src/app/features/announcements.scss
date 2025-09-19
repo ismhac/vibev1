@@ -1,0 +1,370 @@
+// Announcements Page Layout
+.announcements-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Page Header
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+
+  .page-title {
+    color: #ff7700; // FPT Software orange
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .page-description {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// Loading State
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+
+  .loading-content {
+    text-align: center;
+    
+    p {
+      margin-top: 16px;
+      color: #666;
+      font-size: 16px;
+    }
+  }
+}
+
+// Error State
+.error-container {
+  margin: 40px 0;
+
+  .retry-button-small {
+    background: #ff7700;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+
+    &:hover {
+      background: #e66a00;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// Announcements Grid
+.announcements-container {
+  .announcement-card {
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-color: #ff7700;
+    }
+
+    // Announcement Header
+    .announcement-header {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafafa;
+
+      .announcement-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+
+        .announcement-date {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #666;
+          font-size: 0.9rem;
+          font-weight: 500;
+
+          span[nz-icon] {
+            color: #ff7700;
+          }
+        }
+
+        .priority-tag {
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+      }
+
+      .announcement-category {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #999;
+        font-size: 0.85rem;
+        font-weight: 500;
+
+        span[nz-icon] {
+          color: #ff7700;
+        }
+      }
+    }
+
+    // Announcement Content
+    .announcement-content {
+      padding: 20px;
+
+      .announcement-title {
+        color: #333;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 3.2rem;
+      }
+
+      .announcement-summary {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 4.5rem;
+      }
+
+      // Author and Read Time
+      .announcement-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        padding-top: 12px;
+        border-top: 1px solid #f0f0f0;
+
+        .announcement-author,
+        .announcement-read-time {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #999;
+          font-size: 0.85rem;
+          font-weight: 500;
+
+          span[nz-icon] {
+            color: #ff7700;
+          }
+        }
+      }
+
+      // Tags
+      .announcement-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+
+        .announcement-tag {
+          background: #f5f5f5;
+          color: #666;
+          border: 1px solid #e8e8e8;
+          font-size: 0.75rem;
+          padding: 2px 8px;
+          border-radius: 12px;
+        }
+
+        .more-tags {
+          color: #ff7700;
+          font-size: 0.75rem;
+          font-weight: 500;
+          background: rgba(255, 119, 0, 0.1);
+          padding: 2px 8px;
+          border-radius: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+
+  .empty-content {
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      color: #666;
+      margin-bottom: 24px;
+      font-size: 1.2rem;
+    }
+
+    .retry-button {
+      background: #ff7700;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #e66a00;
+        transform: translateY(-1px);
+      }
+    }
+  }
+}
+
+// Pagination
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding: 20px 0;
+
+  ::ng-deep .ant-pagination {
+    .ant-pagination-item {
+      border-radius: 6px;
+      
+      &.ant-pagination-item-active {
+        background: #ff7700;
+        border-color: #ff7700;
+        
+        a {
+          color: white;
+        }
+      }
+    }
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      border-radius: 6px;
+      
+      &:hover {
+        border-color: #ff7700;
+        color: #ff7700;
+      }
+    }
+
+    .ant-pagination-jump-prev,
+    .ant-pagination-jump-next {
+      &:hover {
+        color: #ff7700;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .announcements-page {
+    padding: 16px;
+  }
+
+  .page-header {
+    margin-bottom: 24px;
+
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .page-description {
+      font-size: 1rem;
+    }
+  }
+
+  .announcements-container {
+    .announcement-card {
+      .announcement-header {
+        padding: 12px 16px 8px;
+
+        .announcement-meta {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+      }
+
+      .announcement-content {
+        padding: 16px;
+
+        .announcement-title {
+          font-size: 1.1rem;
+          min-height: 2.8rem;
+        }
+
+        .announcement-summary {
+          font-size: 0.9rem;
+          min-height: 4rem;
+        }
+
+        .announcement-footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .announcements-page {
+    padding: 12px;
+  }
+
+  .page-header {
+    .page-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  .announcements-container {
+    .announcement-card {
+      .announcement-content {
+        .announcement-tags {
+          .announcement-tag {
+            font-size: 0.7rem;
+            padding: 1px 6px;
+          }
+
+          .more-tags {
+            font-size: 0.7rem;
+            padding: 1px 6px;
+          }
+        }
+      }
+    }
+  }
+}

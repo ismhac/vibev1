@@ -1,0 +1,163 @@
+<div class="homepage-container">
+  <!-- Hero Banner Section -->
+  <section class="hero-banner-section">
+    <div class="hero-banner-content">
+      <!-- Placeholder for hero banner content -->
+    </div>
+  </section>
+
+  <!-- Industries Section -->
+  <section class="industries-section">
+    <div class="industries-content">
+      <div class="section-header">
+        <h2 class="section-title">Our Industries</h2>
+        <p class="section-subtitle">Discover the sectors we serve with expertise and innovation</p>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="industriesLoading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading industries...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="industriesError && !industriesLoading" class="error-state">
+        <p class="error-message">{{ industriesError }}</p>
+        <button class="retry-button" (click)="loadIndustries()">Retry</button>
+      </div>
+
+      <!-- Industries Grid -->
+      <div *ngIf="!industriesLoading && !industriesError" class="industries-grid">
+        <div 
+          *ngFor="let industry of industries" 
+          class="industry-card"
+          [routerLink]="['/industries', industry.id]"
+          (click)="onIndustryClick(industry.id)">
+          <div class="industry-icon">
+            <span class="material-icons">{{ industry.icon || 'business' }}</span>
+          </div>
+          <h3 class="industry-name">{{ industry.name }}</h3>
+          <p class="industry-description">{{ industry.description }}</p>
+        </div>
+      </div>
+
+      <!-- View All Button -->
+      <div *ngIf="!industriesLoading && !industriesError" class="view-all-container">
+        <button 
+          class="view-all-button"
+          [routerLink]="['/industries']"
+          (click)="onViewAllClick()">
+          View All Industries
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Announcements Section -->
+  <section class="announcements-section">
+    <div class="announcements-content">
+      <div class="section-header">
+        <h2 class="section-title">Latest News</h2>
+        <p class="section-subtitle">Stay updated with our latest announcements and company news</p>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="announcementsLoading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading announcements...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="announcementsError && !announcementsLoading" class="error-state">
+        <p class="error-message">{{ announcementsError }}</p>
+        <button class="retry-button" (click)="loadAnnouncements()">Retry</button>
+      </div>
+
+      <!-- Announcements Grid -->
+      <div *ngIf="!announcementsLoading && !announcementsError" class="announcements-grid">
+        <div 
+          *ngFor="let announcement of announcements" 
+          class="announcement-card">
+          <div class="announcement-image" *ngIf="announcement.imageUrl">
+            <img [src]="announcement.imageUrl" [alt]="announcement.title">
+          </div>
+          <div class="announcement-content">
+            <div class="announcement-meta">
+              <span class="announcement-category">{{ announcement.category }}</span>
+              <span class="announcement-date">{{ announcement.publishedAt | date:'MMM d, y' }}</span>
+            </div>
+            <h3 class="announcement-title">{{ announcement.title }}</h3>
+            <p class="announcement-summary">{{ announcement.summary }}</p>
+            <div class="announcement-footer">
+              <span class="announcement-author">By {{ announcement.author }}</span>
+              <span class="announcement-read-time">{{ announcement.readTime }} min read</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View All Button -->
+      <div *ngIf="!announcementsLoading && !announcementsError" class="view-all-container">
+        <button 
+          class="view-all-button"
+          [routerLink]="['/announcements']"
+          (click)="onViewAllAnnouncementsClick()">
+          View All Announcements
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscription Form Section -->
+  <section class="subscription-form-section">
+    <div class="subscription-form-content">
+      <div class="section-header">
+        <h2 class="section-title">Stay Updated</h2>
+        <p class="section-subtitle">Subscribe to our newsletter for the latest news and updates</p>
+      </div>
+
+      <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmitSubscription()" class="subscription-form">
+        <div class="form-group">
+          <label for="fullName" class="form-label">Full Name *</label>
+          <input
+            type="text"
+            id="fullName"
+            formControlName="fullName"
+            class="form-input"
+            [class.error]="hasFieldError('fullName')"
+            placeholder="Enter your full name">
+          <div *ngIf="hasFieldError('fullName')" class="error-message">
+            {{ getFieldError('fullName') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address *</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-input"
+            [class.error]="hasFieldError('email')"
+            placeholder="Enter your email address">
+          <div *ngIf="hasFieldError('email')" class="error-message">
+            {{ getFieldError('email') }}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="subscriptionLoading || subscriptionForm.invalid">
+          <span *ngIf="subscriptionLoading" class="loading-spinner"></span>
+          <span *ngIf="!subscriptionLoading">Subscribe</span>
+          <span *ngIf="subscriptionLoading">Subscribing...</span>
+        </button>
+
+        <div *ngIf="subscriptionMessage" class="subscription-message" [class.success]="subscriptionSuccess" [class.error]="!subscriptionSuccess">
+          {{ subscriptionMessage }}
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
