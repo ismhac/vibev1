@@ -90,13 +90,18 @@ export class AnnouncementsService {
    * Get all announcements for admin (including unpublished)
    * @param page - Page number (default: 1)
    * @param limit - Number of items per page (default: 10)
+   * @param search - Search term (optional)
    * @returns Observable of announcement list response
    */
-  getAnnouncementsForAdmin(page = 1, limit = 10): Observable<AnnouncementListResponse> {
-    const params = {
+  getAnnouncementsForAdmin(page = 1, limit = 10, search?: string): Observable<AnnouncementListResponse> {
+    const params: any = {
       page: page.toString(),
       limit: limit.toString(),
     };
+
+    if (search && search.trim()) {
+      params.search = search.trim();
+    }
 
     return this.http.get<AnnouncementListResponse>(`${this.apiUrl}/admin`, { params });
   }

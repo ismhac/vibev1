@@ -5,16 +5,17 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  background: #ffffff;
+  padding: 0;
 }
 
 .welcome-section {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: #ffffff !important;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #e9ecef;
   position: relative;
   overflow: hidden;
 
@@ -25,7 +26,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #3498db, #e74c3c, #f39c12, #2ecc71);
+    background: linear-gradient(90deg, #ff7700, #e67e22);
   }
 
   h2 {
@@ -34,10 +35,7 @@
     font-weight: 800;
     margin: 0 0 20px 0;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #2c3e50, #3498db);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #2c3e50;
   }
 
   p {
@@ -53,18 +51,22 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
+  align-items: stretch;
 }
 
 .admin-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-  padding: 28px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #ffffff !important;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 200px;
 
   &::before {
     content: '';
@@ -73,14 +75,14 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #3498db, #e74c3c);
+    background: linear-gradient(90deg, #ff7700, #e67e22);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
 
   &:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 
     &::before {
       opacity: 1;
@@ -93,6 +95,7 @@
     font-weight: 700;
     margin: 0 0 16px 0;
     letter-spacing: -0.3px;
+    flex-shrink: 0;
   }
 
   p {
@@ -101,43 +104,34 @@
     margin: 0 0 24px 0;
     line-height: 1.6;
     font-weight: 500;
+    flex-grow: 1;
+  }
+
+  .card-button {
+    margin-top: auto;
+    flex-shrink: 0;
   }
 }
 
 .card-button {
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: linear-gradient(135deg, #ff7700, #e67e22);
   color: white;
   border: none;
-  border-radius: 10px;
-  padding: 14px 24px;
-  font-size: 15px;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   width: 100%;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-  }
+  box-shadow: 0 2px 8px rgba(255, 119, 0, 0.3);
 
   &:hover {
-    background: linear-gradient(135deg, #2980b9, #1f618d);
+    background: linear-gradient(135deg, #e67e22, #d35400);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
-
-    &::before {
-      left: 100%;
-    }
+    box-shadow: 0 4px 12px rgba(255, 119, 0, 0.4);
   }
 
   &:active {
@@ -177,56 +171,55 @@
   .admin-cards {
     grid-template-columns: 1fr;
     gap: 16px;
+    align-items: stretch;
+  }
+
+  .admin-card {
+    min-height: 180px;
   }
 }
 
-// Dark mode support
+// Dark mode support - Override to maintain white background
 @media (prefers-color-scheme: dark) {
   .admin-dashboard {
-    background: #1a1a1a;
-  }
-
-  .admin-header {
-    background: #2c3e50;
-    border-bottom-color: #34495e;
-  }
-
-  .admin-title {
-    color: white;
-  }
-
-  .user-name {
-    color: white;
-  }
-
-  .user-role {
-    color: #bdc3c7;
+    background: #ffffff !important;
   }
 
   .welcome-section {
-    background: #2c3e50;
-    color: white;
+    background: #ffffff !important;
+    color: #2c3e50;
 
     h2 {
-      color: white;
+      color: #2c3e50 !important;
     }
 
     p {
-      color: #bdc3c7;
+      color: #7f8c8d !important;
     }
   }
 
   .admin-card {
-    background: #2c3e50;
-    border-color: #34495e;
-    color: white;
+    background: #ffffff !important;
+    border-color: #e9ecef;
+    color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 200px;
 
     h3 {
-      color: white;
+      color: #2c3e50 !important;
+      flex-shrink: 0;
     }
 
     p {
-      color: #bdc3c7;
+      color: #7f8c8d !important;
+      flex-grow: 1;
+    }
+
+    .card-button {
+      margin-top: auto;
+      flex-shrink: 0;
     }
   }
 }

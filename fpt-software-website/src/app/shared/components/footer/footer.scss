@@ -1,7 +1,8 @@
 // Footer Layout
 .footer-layout {
-  position: static;
+  position: relative;
   width: 100%;
+  z-index: 50; // Lower than all admin elements
 }
 
 // Footer Content

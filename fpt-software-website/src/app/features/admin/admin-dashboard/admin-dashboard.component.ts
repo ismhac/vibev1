@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService, User } from '../../../core/services/auth.service';
 
 @Component({
@@ -12,7 +13,10 @@ import { AuthService, User } from '../../../core/services/auth.service';
 export class AdminDashboardComponent implements OnInit {
   currentUser: User | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe((user: User | null) => {
@@ -34,5 +38,22 @@ export class AdminDashboardComponent implements OnInit {
 
   get userEmail(): string {
     return this.currentUser?.email || 'Unknown Email';
+  }
+
+  navigateToUsers(): void {
+    this.router.navigate(['/admin/users']);
+  }
+
+  navigateToIndustries(): void {
+    this.router.navigate(['/admin/industries']);
+  }
+
+  navigateToAnnouncements(): void {
+    this.router.navigate(['/admin/announcements']);
+  }
+
+  navigateToAnalytics(): void {
+    // Placeholder for analytics - could navigate to a specific analytics page
+    console.log('Navigate to Analytics');
   }
 }

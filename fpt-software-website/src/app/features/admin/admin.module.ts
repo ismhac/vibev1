@@ -14,6 +14,11 @@ import { AdminGuard } from '../../core/guards/auth.guard';
         children: [
           {
             path: '',
+            redirectTo: 'dashboard',
+            pathMatch: 'full'
+          },
+          {
+            path: 'dashboard',
             component: AdminDashboardComponent
           },
           {

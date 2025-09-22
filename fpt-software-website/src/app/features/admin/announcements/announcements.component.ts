@@ -1,11 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnnouncementsService, Announcement, CreateAnnouncementRequest, UpdateAnnouncementRequest } from '../../../core/services/announcements.service';
-
-// Quill imports
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
 
 @Component({
   selector: 'app-announcements',
@@ -15,7 +11,6 @@ import 'quill/dist/quill.snow.css';
   imports: [CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class AnnouncementsComponent implements OnInit {
-  @ViewChild('quillEditor', { static: false }) quillEditor!: ElementRef;
   
   announcements: Announcement[] = [];
   loading = false;
@@ -57,8 +52,6 @@ export class AnnouncementsComponent implements OnInit {
   selectedFile: File | null = null;
   filePreview: string | null = null;
   
-  // Rich text editor
-  quill: Quill | null = null;
 
   // Available options
   availablePriorities = ['low', 'medium', 'high'];
@@ -70,40 +63,12 @@ export class AnnouncementsComponent implements OnInit {
     this.loadAnnouncements();
   }
 
-  ngAfterViewInit(): void {
-    this.initializeQuillEditor();
-  }
-
-  initializeQuillEditor(): void {
-    if (this.quillEditor) {
-      this.quill = new Quill(this.quillEditor.nativeElement, {
-        theme: 'snow',
-        modules: {
-          toolbar: [
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
-            [{ 'align': [] }],
-            ['link', 'image'],
-            ['clean']
-          ]
-        }
-      });
-
-      // Set initial content if editing
-      if (this.editingAnnouncement) {
-        this.quill.root.innerHTML = this.editingAnnouncement.content;
-      }
-    }
-  }
 
   loadAnnouncements(): void {
     this.loading = true;
     this.error = null;
     
-    this.announcementsService.getAnnouncementsForAdmin(this.currentPage, this.pageSize).subscribe({
+    this.announcementsService.getAnnouncementsForAdmin(this.currentPage, this.pageSize, this.searchTerm).subscribe({
       next: (response) => {
         this.announcements = response.data;
         this.totalAnnouncements = response.total;
@@ -144,11 +109,7 @@ export class AnnouncementsComponent implements OnInit {
     this.selectedFile = null;
     this.filePreview = null;
     this.showAnnouncementForm = true;
-    
-    // Initialize editor after view update
-    setTimeout(() => {
-      this.initializeQuillEditor();
-    }, 100);
+    document.body.style.overflow = 'hidden';
   }
 
   onEditAnnouncement(announcement: Announcement): void {
@@ -168,11 +129,7 @@ export class AnnouncementsComponent implements OnInit {
     this.selectedFile = null;
     this.filePreview = announcement.imageUrl || null;
     this.showAnnouncementForm = true;
-    
-    // Initialize editor after view update
-    setTimeout(() => {
-      this.initializeQuillEditor();
-    }, 100);
+    document.body.style.overflow = 'hidden';
   }
 
   onSaveAnnouncement(): void {
@@ -181,9 +138,6 @@ export class AnnouncementsComponent implements OnInit {
       return;
     }
 
-    if (this.quill) {
-      this.announcementForm.patchValue({ content: this.quill.root.innerHTML });
-    }
 
     if (this.editingAnnouncement) {
       this.updateAnnouncement();
@@ -255,6 +209,7 @@ export class AnnouncementsComponent implements OnInit {
     this.editingAnnouncement = null;
     this.selectedFile = null;
     this.filePreview = null;
+    document.body.style.overflow = '';
   }
 
   onFileSelected(event: any): void {

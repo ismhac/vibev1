@@ -91,17 +91,27 @@ export class AnnouncementsService {
    * Get all announcements (including unpublished) with pagination support
    * @param page - Page number (default: 1)
    * @param limit - Number of items per page (default: 10)
+   * @param search - Search term (optional)
    * @returns Paginated list of all announcements
    */
-  async findAllForAdmin(page: number = 1, limit: number = 10): Promise<AnnouncementListResponseDto> {
-    this.logger.log(`Fetching all announcements for admin - page: ${page}, limit: ${limit}`);
+  async findAllForAdmin(page: number = 1, limit: number = 10, search?: string): Promise<AnnouncementListResponseDto> {
+    this.logger.log(`Fetching all announcements for admin - page: ${page}, limit: ${limit}, search: ${search || 'none'}`);
     
     try {
-      const [announcements, total] = await this.announcementRepository.findAndCount({
-        skip: (page - 1) * limit,
-        take: limit,
-        order: { createdAt: 'DESC' },
-      });
+      const queryBuilder = this.announcementRepository.createQueryBuilder('announcement');
+      
+      if (search && search.trim()) {
+        queryBuilder.where(
+          'announcement.title ILIKE :search OR announcement.content ILIKE :search OR announcement.summary ILIKE :search OR announcement.author ILIKE :search OR announcement.category ILIKE :search',
+          { search: `%${search.trim()}%` }
+        );
+      }
+      
+      const [announcements, total] = await queryBuilder
+        .skip((page - 1) * limit)
+        .take(limit)
+        .orderBy('announcement.createdAt', 'DESC')
+        .getManyAndCount();
 
       const announcementDtos = announcements.map(announcement => this.mapToResponseDto(announcement));
 

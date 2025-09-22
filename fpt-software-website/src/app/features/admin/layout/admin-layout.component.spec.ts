@@ -108,6 +108,7 @@ describe('AdminLayoutComponent', () => {
     it('should initialize with correct default values', () => {
       expect(component.currentUser).toBeNull();
       expect(component.sidebarCollapsed).toBeFalse();
+      expect(component.isMobile).toBeFalse();
     });
 
     it('should update currentUser when AuthService emits new user', () => {
@@ -122,6 +123,90 @@ describe('AdminLayoutComponent', () => {
       fixture.detectChanges();
       
       expect(component.currentUser).toEqual(newUser);
+    });
+  });
+
+  describe('Mobile Detection', () => {
+    beforeEach(() => {
+      // Mock window.innerWidth
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024
+      });
+    });
+
+    it('should detect desktop view correctly', () => {
+      component.checkMobile();
+      expect(component.isMobile).toBeFalse();
+    });
+
+    it('should detect mobile view correctly', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 768
+      });
+      
+      component.checkMobile();
+      expect(component.isMobile).toBeTrue();
+    });
+
+    it('should auto-collapse sidebar when switching from mobile to desktop', () => {
+      // Set mobile state with sidebar collapsed
+      component.isMobile = true;
+      component.sidebarCollapsed = true;
+      
+      // Switch to desktop
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024
+      });
+      
+      component.checkMobile();
+      
+      expect(component.isMobile).toBeFalse();
+      expect(component.sidebarCollapsed).toBeFalse();
+    });
+  });
+
+  describe('Mobile Overlay', () => {
+    it('should close sidebar on mobile when overlay is clicked', () => {
+      component.isMobile = true;
+      component.sidebarCollapsed = true;
+      
+      component.closeSidebarOnMobile();
+      
+      expect(component.sidebarCollapsed).toBeFalse();
+    });
+
+    it('should not close sidebar on desktop when overlay is clicked', () => {
+      component.isMobile = false;
+      component.sidebarCollapsed = true;
+      
+      component.closeSidebarOnMobile();
+      
+      expect(component.sidebarCollapsed).toBeTrue();
+    });
+
+    it('should not close sidebar when not collapsed', () => {
+      component.isMobile = true;
+      component.sidebarCollapsed = false;
+      
+      component.closeSidebarOnMobile();
+      
+      expect(component.sidebarCollapsed).toBeFalse();
+    });
+  });
+
+  describe('Component Lifecycle', () => {
+    it('should clean up resize listener on destroy', () => {
+      spyOn(window, 'removeEventListener');
+      
+      component.ngOnDestroy();
+      
+      expect(window.removeEventListener).toHaveBeenCalledWith('resize', jasmine.any(Function));
     });
   });
 });

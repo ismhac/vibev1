@@ -41,14 +41,16 @@ export class IndustriesController {
    * Get all industries with pagination
    * @param page - Page number (optional, default: 1)
    * @param limit - Number of items per page (optional, default: 10)
+   * @param search - Search term (optional)
    * @returns Paginated list of industries
    */
   @Get()
   async findAll(
     @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
+    @Query('search') search?: string,
   ): Promise<IndustryListResponseDto> {
-    return this.industriesService.findAll(page, limit);
+    return this.industriesService.findAll(page, limit, search);
   }
 
   /**

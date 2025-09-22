@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterModule } from '@angular/router';
+import { RouterOutlet, RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService, User } from '../../../core/services/auth.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-layout',
@@ -10,20 +11,42 @@ import { AuthService, User } from '../../../core/services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterModule]
 })
-export class AdminLayoutComponent implements OnInit {
+export class AdminLayoutComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
-  sidebarCollapsed = false;
+  isMobile = false;
+  private resizeListener?: () => void;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe((user: User | null) => {
       this.currentUser = user;
     });
+    
+    // Check if mobile on init and resize
+    this.checkMobile();
+    this.resizeListener = () => this.checkMobile();
+    window.addEventListener('resize', this.resizeListener);
+
+    // Listen to router events and scroll to top on navigation
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.scrollToTop();
+      });
   }
 
-  toggleSidebar(): void {
-    this.sidebarCollapsed = !this.sidebarCollapsed;
+  ngOnDestroy(): void {
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
+  }
+
+  checkMobile(): void {
+    this.isMobile = window.innerWidth <= 768;
   }
 
   logout(): void {
@@ -40,5 +63,12 @@ export class AdminLayoutComponent implements OnInit {
 
   get userEmail(): string {
     return this.currentUser?.email || 'Unknown Email';
+  }
+
+  /**
+   * Scroll to top of the page
+   */
+  private scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

@@ -6,5 +6,5 @@
   <router-outlet></router-outlet>
 </main>
 
-<!-- Footer -->
-<app-footer></app-footer>
+<!-- Footer - Only show for non-admin routes -->
+<app-footer *ngIf="!isAdminRoute()"></app-footer>

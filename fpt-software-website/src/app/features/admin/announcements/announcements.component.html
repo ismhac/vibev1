@@ -1,181 +1,110 @@
-<div class="announcements-management">
-  <!-- Header Section -->
+<div class="announcements-page">
   <div class="page-header">
-    <div class="header-content">
-      <h1>Announcement Management</h1>
-      <p>Manage announcements and their content</p>
-    </div>
-    <div class="header-actions">
-      <button class="btn btn-primary" (click)="onAddAnnouncement()" [disabled]="loading">
-        <i class="fas fa-plus"></i>
-        Add Announcement
-      </button>
-    </div>
+    <h1>Announcement Management</h1>
+    <p>Manage announcements and their content</p>
   </div>
 
-  <!-- Search and Filters -->
-  <div class="search-section">
-    <div class="search-bar">
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        placeholder="Search announcements..."
-        class="search-input"
-        (keyup.enter)="onSearch()"
-      />
-      <button class="btn btn-secondary" (click)="onSearch()" [disabled]="loading">
-        <i class="fas fa-search"></i>
-        Search
-      </button>
+  <div class="page-content">
+    <!-- Search and Actions -->
+    <div class="toolbar">
+      <div class="search-section">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search announcements..."
+          class="search-input"
+          (keyup.enter)="onSearch()"
+        />
+        <button class="search-btn" (click)="onSearch()">Search</button>
+      </div>
+      <button class="add-btn" (click)="onAddAnnouncement()">Add Announcement</button>
     </div>
-  </div>
 
-  <!-- Error Message -->
-  <div class="error-message" *ngIf="error">
-    <div class="alert alert-error">
-      <i class="fas fa-exclamation-triangle"></i>
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">
       {{ error }}
-      <button class="close-btn" (click)="error = null">&times;</button>
     </div>
-  </div>
 
-  <!-- Loading State -->
-  <div class="loading-state" *ngIf="loading && announcements.length === 0">
-    <div class="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading announcements...</p>
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
     </div>
-  </div>
 
-  <!-- Announcements Table -->
-  <div class="table-container" *ngIf="!loading || announcements.length > 0">
-    <table class="announcements-table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Category</th>
-          <th>Priority</th>
-          <th>Status</th>
-          <th>Author</th>
-          <th>Published</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let announcement of announcements" class="announcement-row">
-          <td class="announcement-title">
-            <div class="title-content">
+    <!-- Announcements Table -->
+    <div *ngIf="!loading" class="announcements-table-container">
+      <table class="announcements-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Author</th>
+            <th>Published</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let announcement of announcements" class="announcement-row">
+            <td>
               <strong>{{ announcement.title }}</strong>
-              <div class="title-summary" *ngIf="announcement.summary">
+              <div *ngIf="announcement.summary" class="title-summary">
                 {{ announcement.summary | slice:0:100 }}{{ announcement.summary.length > 100 ? '...' : '' }}
               </div>
-            </div>
-          </td>
-          <td class="announcement-category">
-            <span *ngIf="announcement.category; else noCategory">
-              {{ announcement.category }}
-            </span>
-            <ng-template #noCategory>
-              <span class="text-muted">No category</span>
-            </ng-template>
-          </td>
-          <td class="announcement-priority">
-            <span [class]="getPriorityClass(announcement.priority)">
-              {{ getPriorityDisplayName(announcement.priority) }}
-            </span>
-          </td>
-          <td class="announcement-status">
-            <span [class]="getStatusClass(announcement.isPublished)">
-              {{ getStatusDisplayName(announcement.isPublished) }}
-            </span>
-          </td>
-          <td class="announcement-author">
-            <span *ngIf="announcement.author; else noAuthor">
-              {{ announcement.author }}
-            </span>
-            <ng-template #noAuthor>
-              <span class="text-muted">No author</span>
-            </ng-template>
-          </td>
-          <td class="announcement-published">
-            <span *ngIf="announcement.publishedAt; else notPublished">
-              {{ announcement.publishedAt | date:'short' }}
-            </span>
-            <ng-template #notPublished>
-              <span class="text-muted">Not published</span>
-            </ng-template>
-          </td>
-          <td class="announcement-actions">
-            <button 
-              class="btn btn-sm btn-outline-primary" 
-              (click)="onEditAnnouncement(announcement)"
-              [disabled]="loading"
-              title="Edit announcement"
-            >
-              <i class="fas fa-edit"></i>
-            </button>
-            <button 
-              class="btn btn-sm btn-outline-danger" 
-              (click)="onDeleteAnnouncement(announcement)"
-              [disabled]="loading"
-              title="Delete announcement"
-            >
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+            <td>{{ announcement.category || 'No category' }}</td>
+            <td>
+              <span class="priority-badge" [class]="getPriorityClass(announcement.priority)">
+                {{ getPriorityDisplayName(announcement.priority) }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge" [class]="getStatusClass(announcement.isPublished)">
+                {{ getStatusDisplayName(announcement.isPublished) }}
+              </span>
+            </td>
+            <td>{{ announcement.author || 'No author' }}</td>
+            <td>{{ announcement.publishedAt ? (announcement.publishedAt | date:'short') : 'Not published' }}</td>
+            <td class="actions">
+              <button class="edit-btn" (click)="onEditAnnouncement(announcement)">Edit</button>
+              <button class="delete-btn" (click)="onDeleteAnnouncement(announcement)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="announcements.length === 0 && !loading">
-      <div class="empty-content">
-        <i class="fas fa-bullhorn"></i>
-        <h3>No Announcements Found</h3>
-        <p>Start by adding your first announcement.</p>
-        <button class="btn btn-primary" (click)="onAddAnnouncement()">
-          <i class="fas fa-plus"></i>
-          Add Announcement
-        </button>
+      <!-- Empty State -->
+      <div *ngIf="announcements.length === 0" class="empty-state">
+        <p>No announcements found</p>
       </div>
     </div>
-  </div>
 
-  <!-- Pagination -->
-  <div class="pagination-container" *ngIf="totalPages > 1">
-    <div class="pagination-info">
-      Showing {{ (currentPage - 1) * pageSize + 1 }} to {{ Math.min(currentPage * pageSize, totalAnnouncements) }} of {{ totalAnnouncements }} announcements
-    </div>
-    <div class="pagination">
+    <!-- Pagination -->
+    <div *ngIf="!loading && totalPages > 1" class="pagination">
       <button 
-        class="btn btn-sm btn-outline-secondary" 
+        class="page-btn" 
+        [disabled]="currentPage === 1"
         (click)="onPageChange(currentPage - 1)"
-        [disabled]="currentPage === 1 || loading"
       >
-        <i class="fas fa-chevron-left"></i>
         Previous
       </button>
       
-      <div class="page-numbers">
-        <button 
-          *ngFor="let page of pages" 
-          class="btn btn-sm"
-          [class.btn-primary]="page === currentPage"
-          [class.btn-outline-secondary]="page !== currentPage"
-          (click)="onPageChange(page)"
-          [disabled]="loading"
-        >
-          {{ page }}
-        </button>
-      </div>
+      <button 
+        *ngFor="let page of pages" 
+        class="page-btn"
+        [class.active]="page === currentPage"
+        (click)="onPageChange(page)"
+      >
+        {{ page }}
+      </button>
       
       <button 
-        class="btn btn-sm btn-outline-secondary" 
+        class="page-btn" 
+        [disabled]="currentPage === totalPages"
         (click)="onPageChange(currentPage + 1)"
-        [disabled]="currentPage === totalPages || loading"
       >
         Next
-        <i class="fas fa-chevron-right"></i>
       </button>
     </div>
   </div>
@@ -189,8 +118,9 @@
       <button class="close-btn" (click)="onCancelForm()">&times;</button>
     </div>
     
-    <div class="modal-body">
-      <form [formGroup]="announcementForm" (ngSubmit)="onSaveAnnouncement()">
+    <div class="modal-scrollable">
+      <div class="modal-body">
+        <form [formGroup]="announcementForm" (ngSubmit)="onSaveAnnouncement()">
         <div class="form-row">
           <div class="form-group">
             <label for="title">Title *</label>
@@ -274,11 +204,17 @@
 
         <div class="form-group">
           <label for="content">Content *</label>
-          <div class="quill-editor-container">
-            <div #quillEditor class="quill-editor"></div>
-          </div>
+          <textarea
+            id="content"
+            name="content"
+            formControlName="content"
+            class="form-control"
+            rows="8"
+            placeholder="Enter announcement content"
+            required
+          ></textarea>
           <div class="form-help">
-            Use the rich text editor to format your content.
+            Enter the main content of the announcement.
           </div>
         </div>
 
@@ -368,7 +304,8 @@
             Uncheck to save as draft.
           </div>
         </div>
-      </form>
+        </form>
+      </div>
     </div>
     
     <div class="modal-footer">

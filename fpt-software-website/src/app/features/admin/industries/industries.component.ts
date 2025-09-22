@@ -49,7 +49,7 @@ export class IndustriesComponent implements OnInit {
     this.loading = true;
     this.error = null;
     
-    this.industriesService.getIndustries(this.currentPage, this.pageSize).subscribe({
+    this.industriesService.getIndustries(this.currentPage, this.pageSize, this.searchTerm).subscribe({
       next: (response) => {
         this.industries = response.data;
         this.totalIndustries = response.total;
@@ -82,6 +82,7 @@ export class IndustriesComponent implements OnInit {
       isActive: true
     });
     this.showIndustryForm = true;
+    document.body.style.overflow = 'hidden';
   }
 
   onEditIndustry(industry: Industry): void {
@@ -93,6 +94,7 @@ export class IndustriesComponent implements OnInit {
       isActive: industry.isActive
     });
     this.showIndustryForm = true;
+    document.body.style.overflow = 'hidden';
   }
 
   onSaveIndustry(): void {
@@ -170,6 +172,7 @@ export class IndustriesComponent implements OnInit {
   onCancelForm(): void {
     this.showIndustryForm = false;
     this.editingIndustry = null;
+    document.body.style.overflow = '';
   }
 
   get totalPages(): number {

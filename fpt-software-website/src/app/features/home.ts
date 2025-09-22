@@ -100,6 +100,19 @@ export class HomePageComponent implements OnInit {
   }
 
   /**
+   * Scroll to subscription form section
+   */
+  scrollToSubscription(): void {
+    const element = document.getElementById('subscription');
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }
+
+  /**
    * Initialize subscription form with validation
    */
   initializeSubscriptionForm(): void {

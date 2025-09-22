@@ -63,6 +63,7 @@ export class AnnouncementsController {
    * Get all announcements (including unpublished) for admin
    * @param page - Page number (optional, default: 1)
    * @param limit - Number of items per page (optional, default: 10)
+   * @param search - Search term (optional)
    * @returns Paginated list of all announcements
    */
   @Get('admin')
@@ -71,8 +72,9 @@ export class AnnouncementsController {
   async findAllForAdmin(
     @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
+    @Query('search') search?: string,
   ): Promise<AnnouncementListResponseDto> {
-    return this.announcementsService.findAllForAdmin(page, limit);
+    return this.announcementsService.findAllForAdmin(page, limit, search);
   }
 
   /**

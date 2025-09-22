@@ -9,25 +9,25 @@
     <div class="admin-card">
       <h3>Content Management</h3>
       <p>Manage announcements, industries, and other content</p>
-      <button class="card-button">Manage Content</button>
+      <button class="card-button" (click)="navigateToAnnouncements()">Manage Content</button>
     </div>
 
     <div class="admin-card">
       <h3>User Management</h3>
       <p>Manage users, roles, and permissions</p>
-      <button class="card-button">Manage Users</button>
+      <button class="card-button" (click)="navigateToUsers()">Manage Users</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>Industry Management</h3>
+      <p>Manage industries and their information</p>
+      <button class="card-button" (click)="navigateToIndustries()">Manage Industries</button>
     </div>
 
     <div class="admin-card">
       <h3>Analytics</h3>
       <p>View reports and analytics</p>
-      <button class="card-button">View Analytics</button>
-    </div>
-
-    <div class="admin-card">
-      <h3>Settings</h3>
-      <p>Configure system settings</p>
-      <button class="card-button">Settings</button>
+      <button class="card-button" (click)="navigateToAnalytics()">View Analytics</button>
     </div>
   </div>
 </div>

@@ -62,8 +62,8 @@
             </td>
             <td>{{ user.lastLoginAt ? (user.lastLoginAt | date:'short') : 'Never' }}</td>
             <td class="actions">
-              <button class="edit-btn" (click)="onEditUser(user)">Edit</button>
-              <button class="delete-btn" (click)="onDeleteUser(user)">Delete</button>
+              <button class="edit-btn" (click)="onEditUser(user)" style="background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; margin-right: 4px;">Edit</button>
+              <button class="delete-btn" (click)="onDeleteUser(user)" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer;">Delete</button>
             </td>
           </tr>
         </tbody>

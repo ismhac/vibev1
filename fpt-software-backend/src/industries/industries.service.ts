@@ -49,17 +49,27 @@ export class IndustriesService {
    * Get all industries with pagination support
    * @param page - Page number (default: 1)
    * @param limit - Number of items per page (default: 10)
+   * @param search - Search term (optional)
    * @returns Paginated list of industries
    */
-  async findAll(page: number = 1, limit: number = 10): Promise<IndustryListResponseDto> {
-    this.logger.log(`Fetching industries - page: ${page}, limit: ${limit}`);
+  async findAll(page: number = 1, limit: number = 10, search?: string): Promise<IndustryListResponseDto> {
+    this.logger.log(`Fetching industries - page: ${page}, limit: ${limit}, search: ${search || 'none'}`);
     
     try {
-      const [industries, total] = await this.industryRepository.findAndCount({
-        skip: (page - 1) * limit,
-        take: limit,
-        order: { createdAt: 'DESC' },
-      });
+      const queryBuilder = this.industryRepository.createQueryBuilder('industry');
+      
+      if (search && search.trim()) {
+        queryBuilder.where(
+          'industry.name ILIKE :search OR industry.description ILIKE :search',
+          { search: `%${search.trim()}%` }
+        );
+      }
+      
+      const [industries, total] = await queryBuilder
+        .skip((page - 1) * limit)
+        .take(limit)
+        .orderBy('industry.createdAt', 'DESC')
+        .getManyAndCount();
 
       const industryDtos = industries.map(industry => this.mapToResponseDto(industry));
 

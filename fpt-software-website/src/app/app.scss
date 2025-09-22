@@ -2,9 +2,18 @@
 
 // Main content area - add margins to account for fixed navbar
 .main-content {
-  margin-top: 100px; // Increased margin to ensure content is below navbar
-  min-height: calc(100vh - 100px);
+  margin-top: 64px; // Navbar height is 64px
+  min-height: calc(100vh - 64px);
   padding: 20px 0;
+}
+
+// Admin layout specific styles
+.admin-layout {
+  .main-content {
+    margin-top: 0; // No margin for admin layout as it has its own header
+    min-height: 100vh;
+    padding: 0;
+  }
 }
 
 // Global body styles to ensure proper layout

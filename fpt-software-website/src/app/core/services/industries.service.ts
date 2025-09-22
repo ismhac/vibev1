@@ -47,13 +47,18 @@ export class IndustriesService {
    * Get all industries with pagination
    * @param page - Page number (default: 1)
    * @param limit - Number of items per page (default: 10)
+   * @param search - Search term (optional)
    * @returns Observable of industry list response
    */
-  getIndustries(page = 1, limit = 10): Observable<IndustryListResponse> {
-    const params = {
+  getIndustries(page = 1, limit = 10, search?: string): Observable<IndustryListResponse> {
+    const params: any = {
       page: page.toString(),
       limit: limit.toString(),
     };
+
+    if (search && search.trim()) {
+      params.search = search.trim();
+    }
 
     return this.http.get<IndustryListResponse>(this.apiUrl, { params });
   }
