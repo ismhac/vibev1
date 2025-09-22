@@ -35,6 +35,11 @@ export interface UserListResponse {
   limit: number;
 }
 
+export interface FilterOptions {
+  roles: string[];
+  statuses: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,13 +48,25 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(page: number = 1, limit: number = 10, search?: string): Observable<UserListResponse> {
+  getUsers(
+    page: number = 1, 
+    limit: number = 10, 
+    search?: string, 
+    role?: string, 
+    status?: string
+  ): Observable<UserListResponse> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
 
     if (search) {
       params = params.set('search', search);
+    }
+    if (role) {
+      params = params.set('role', role);
+    }
+    if (status) {
+      params = params.set('status', status);
     }
 
     return this.http.get<UserListResponse>(this.API_URL, { params });
@@ -69,6 +86,10 @@ export class UserService {
 
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`);
+  }
+
+  getFilterOptions(): Observable<FilterOptions> {
+    return this.http.get<FilterOptions>(`${this.API_URL}/filters`);
   }
 
   getAvailableRoles(): string[] {

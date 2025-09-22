@@ -1,4 +1,6 @@
-export class IndustryResponseDto {
+import { BaseResponseDto, PaginatedResponseDto } from '../../common/interfaces/common.interface';
+
+export class IndustryResponseDto implements BaseResponseDto {
   id: number;
   name: string;
   description?: string;
@@ -8,7 +10,7 @@ export class IndustryResponseDto {
   updatedAt: Date;
 }
 
-export class IndustryListResponseDto {
+export class IndustryListResponseDto implements PaginatedResponseDto<IndustryResponseDto> {
   data: IndustryResponseDto[];
   total: number;
   page: number;

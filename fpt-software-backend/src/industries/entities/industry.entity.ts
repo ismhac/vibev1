@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity } from '../../common/interfaces/common.interface';
 
 @Entity('industries')
-export class Industry {
+export class Industry implements BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

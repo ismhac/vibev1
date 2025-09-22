@@ -11,13 +11,39 @@
         <input
           type="text"
           [(ngModel)]="searchTerm"
-          placeholder="Search industries..."
+          placeholder="Search by name..."
           class="search-input"
           (keyup.enter)="onSearch()"
         />
         <button class="search-btn" (click)="onSearch()">Search</button>
+        <button class="filter-btn" (click)="onToggleFilters()">
+          {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+        </button>
+        <button class="clear-btn" (click)="onClearFilters()" *ngIf="searchTerm || selectedStatus">
+          Clear All
+        </button>
       </div>
       <button class="add-btn" (click)="onAddIndustry()">Add Industry</button>
+    </div>
+
+    <!-- Advanced Filters -->
+    <div class="filters-section" *ngIf="showFilters">
+      <div class="filters-container">
+        <div class="filter-group">
+          <label for="statusFilter">Status:</label>
+          <select
+            id="statusFilter"
+            [(ngModel)]="selectedStatus"
+            (change)="onFilterChange()"
+            class="filter-select"
+          >
+            <option value="">All Status</option>
+            <option *ngFor="let status of filterOptions.statuses" [value]="status">
+              {{ status.charAt(0).toUpperCase() + status.slice(1) }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <!-- Error Message -->

@@ -23,6 +23,13 @@ export class IndustriesComponent implements OnInit {
   pageSize = 10;
   totalIndustries = 0;
   
+  // Search and Filter
+  selectedStatus = '';
+  showFilters = false;
+  filterOptions = {
+    statuses: ['active', 'inactive']
+  };
+  
   // Math object for template
   Math = Math;
   
@@ -42,15 +49,42 @@ export class IndustriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadFilterOptions();
     this.loadIndustries();
+  }
+
+  loadFilterOptions(): void {
+    this.industriesService.getFilterOptions().subscribe({
+      next: (options) => {
+        this.filterOptions.statuses = options.statuses;
+      },
+      error: (error) => {
+        console.error('Error loading filter options:', error);
+        // Fallback to default statuses
+        this.filterOptions.statuses = ['active', 'inactive'];
+      }
+    });
   }
 
   loadIndustries(): void {
     this.loading = true;
     this.error = null;
     
-    this.industriesService.getIndustries(this.currentPage, this.pageSize, this.searchTerm).subscribe({
+    console.log('Component calling service with params:', {
+      page: this.currentPage,
+      limit: this.pageSize,
+      search: this.searchTerm,
+      status: this.selectedStatus
+    });
+    
+    this.industriesService.getIndustries(
+      this.currentPage, 
+      this.pageSize, 
+      this.searchTerm,
+      this.selectedStatus
+    ).subscribe({
       next: (response) => {
+        console.log('Service response:', response);
         this.industries = response.data;
         this.totalIndustries = response.total;
         this.loading = false;
@@ -66,6 +100,22 @@ export class IndustriesComponent implements OnInit {
   onSearch(): void {
     this.currentPage = 1;
     this.loadIndustries();
+  }
+
+  onFilterChange(): void {
+    this.currentPage = 1;
+    this.loadIndustries();
+  }
+
+  onClearFilters(): void {
+    this.searchTerm = '';
+    this.selectedStatus = '';
+    this.currentPage = 1;
+    this.loadIndustries();
+  }
+
+  onToggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   onPageChange(page: number): void {

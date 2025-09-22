@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AnnouncementsService, Announcement, CreateAnnouncementRequest, UpdateAnnouncementRequest } from '../../../core/services/announcements.service';
+import { AnnouncementsService, Announcement, CreateAnnouncementRequest, UpdateAnnouncementRequest, FilterOptions } from '../../../core/services/announcements.service';
 
 @Component({
   selector: 'app-announcements',
@@ -18,6 +18,19 @@ export class AnnouncementsComponent implements OnInit {
   showAnnouncementForm = false;
   editingAnnouncement: Announcement | null = null;
   searchTerm = '';
+  
+  // Filter properties
+  selectedCategory = '';
+  selectedPriority = '';
+  selectedStatus = '';
+  selectedAuthor = '';
+  showFilters = false;
+  filterOptions: FilterOptions = {
+    categories: [],
+    priorities: [],
+    statuses: [],
+    authors: []
+  };
   
   // Pagination
   currentPage = 1;
@@ -60,15 +73,31 @@ export class AnnouncementsComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.loadFilterOptions();
     this.loadAnnouncements();
   }
 
+  loadFilterOptions(): void {
+    this.announcementsService.getFilterOptions().subscribe({
+      next: (options) => {
+        this.filterOptions = options;
+        console.log('Filter options loaded:', options);
+      },
+      error: (error) => {
+        console.error('Error loading filter options:', error);
+      }
+    });
+  }
 
   loadAnnouncements(): void {
     this.loading = true;
     this.error = null;
     
-    this.announcementsService.getAnnouncementsForAdmin(this.currentPage, this.pageSize, this.searchTerm).subscribe({
+    this.announcementsService.getAnnouncementsForAdmin(
+      this.currentPage, 
+      this.pageSize, 
+      this.searchTerm
+    ).subscribe({
       next: (response) => {
         this.announcements = response.data;
         this.totalAnnouncements = response.total;
@@ -85,6 +114,25 @@ export class AnnouncementsComponent implements OnInit {
   onSearch(): void {
     this.currentPage = 1;
     this.loadAnnouncements();
+  }
+
+  onFilterChange(): void {
+    this.currentPage = 1;
+    this.loadAnnouncements();
+  }
+
+  onClearFilters(): void {
+    this.searchTerm = '';
+    this.selectedCategory = '';
+    this.selectedPriority = '';
+    this.selectedStatus = '';
+    this.selectedAuthor = '';
+    this.currentPage = 1;
+    this.loadAnnouncements();
+  }
+
+  onToggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   onPageChange(page: number): void {

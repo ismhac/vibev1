@@ -1,4 +1,6 @@
-export class AnnouncementResponseDto {
+import { BaseResponseDto, PaginatedResponseDto } from '../../common/interfaces/common.interface';
+
+export class AnnouncementResponseDto implements BaseResponseDto {
   id: number;
   title: string;
   content: string;
@@ -7,15 +9,15 @@ export class AnnouncementResponseDto {
   category?: string;
   priority: 'low' | 'medium' | 'high';
   isPublished: boolean;
-  publishedAt?: Date;
+  publishedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
-  tags?: string[];
-  imageUrl?: string;
+  tags?: string[] | null;
+  imageUrl?: string | null;
   readTime?: number;
 }
 
-export class AnnouncementListResponseDto {
+export class AnnouncementListResponseDto implements PaginatedResponseDto<AnnouncementResponseDto> {
   data: AnnouncementResponseDto[];
   total: number;
   page: number;

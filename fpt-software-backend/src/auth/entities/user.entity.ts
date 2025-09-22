@@ -1,9 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Role } from './role.entity';
 import { RoleName } from '../enums/role.enum';
+import { BaseEntity } from '../../common/interfaces/common.interface';
 
 @Entity('users')
-export class User {
+export class User implements BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -23,6 +23,15 @@ export class UsersComponent implements OnInit {
   pageSize = 10;
   totalUsers = 0;
   
+  // Search and Filter
+  selectedRole = '';
+  selectedStatus = '';
+  showFilters = false;
+  filterOptions = {
+    roles: [] as string[],
+    statuses: ['active', 'inactive']
+  };
+  
   // Form data
   userForm: CreateUserRequest = {
     email: '',
@@ -37,15 +46,44 @@ export class UsersComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    this.loadFilterOptions();
     this.loadUsers();
+  }
+
+  loadFilterOptions(): void {
+    this.userService.getFilterOptions().subscribe({
+      next: (options) => {
+        this.filterOptions.roles = options.roles;
+      },
+      error: (error) => {
+        console.error('Error loading filter options:', error);
+        // Fallback to default roles
+        this.filterOptions.roles = this.availableRoles;
+      }
+    });
   }
 
   loadUsers(): void {
     this.loading = true;
     this.error = null;
     
-    this.userService.getUsers(this.currentPage, this.pageSize, this.searchTerm).subscribe({
+    console.log('Component calling service with params:', {
+      page: this.currentPage,
+      limit: this.pageSize,
+      search: this.searchTerm,
+      role: this.selectedRole,
+      status: this.selectedStatus
+    });
+    
+    this.userService.getUsers(
+      this.currentPage, 
+      this.pageSize, 
+      this.searchTerm,
+      this.selectedRole,
+      this.selectedStatus
+    ).subscribe({
       next: (response) => {
+        console.log('Service response:', response);
         this.users = response.data;
         this.totalUsers = response.total;
         this.loading = false;
@@ -61,6 +99,23 @@ export class UsersComponent implements OnInit {
   onSearch(): void {
     this.currentPage = 1;
     this.loadUsers();
+  }
+
+  onFilterChange(): void {
+    this.currentPage = 1;
+    this.loadUsers();
+  }
+
+  onClearFilters(): void {
+    this.searchTerm = '';
+    this.selectedRole = '';
+    this.selectedStatus = '';
+    this.currentPage = 1;
+    this.loadUsers();
+  }
+
+  onToggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   onPageChange(page: number): void {

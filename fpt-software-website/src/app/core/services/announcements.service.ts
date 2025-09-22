@@ -48,8 +48,13 @@ export interface UpdateAnnouncementRequest {
   priority?: 'low' | 'medium' | 'high';
   isPublished?: boolean;
   tags?: string[];
-  imageUrl?: string;
-  readTime?: number;
+}
+
+export interface FilterOptions {
+  categories: string[];
+  priorities: string[];
+  statuses: string[];
+  authors: string[];
 }
 
 export interface FileUploadResponse {
@@ -72,18 +77,55 @@ export class AnnouncementsService {
   private http = inject(HttpClient);
 
   /**
-   * Get all published announcements with pagination
+   * Get all published announcements with pagination and filters
    * @param page - Page number (default: 1)
    * @param limit - Number of items per page (default: 10)
+   * @param search - Search term for title, content, summary, author (optional)
+   * @param category - Filter by category (optional)
+   * @param priority - Filter by priority: low, medium, high (optional)
+   * @param status - Filter by status: published, unpublished (optional)
+   * @param author - Filter by author (optional)
    * @returns Observable of announcement list response
    */
-  getAnnouncements(page = 1, limit = 10): Observable<AnnouncementListResponse> {
-    const params = {
+  getAnnouncements(
+    page = 1, 
+    limit = 10, 
+    search?: string,
+    category?: string,
+    priority?: string,
+    status?: string,
+    author?: string
+  ): Observable<AnnouncementListResponse> {
+    const params: any = {
       page: page.toString(),
       limit: limit.toString(),
     };
 
+    if (search && search.trim()) {
+      params.search = search.trim();
+    }
+    if (category && category.trim()) {
+      params.category = category.trim();
+    }
+    if (priority && priority.trim()) {
+      params.priority = priority.trim();
+    }
+    if (status && status.trim()) {
+      params.status = status.trim();
+    }
+    if (author && author.trim()) {
+      params.author = author.trim();
+    }
+
     return this.http.get<AnnouncementListResponse>(this.apiUrl, { params });
+  }
+
+  /**
+   * Get filter options for announcements
+   * @returns Observable of filter options
+   */
+  getFilterOptions(): Observable<FilterOptions> {
+    return this.http.get<FilterOptions>(`${this.apiUrl}/filters`);
   }
 
   /**

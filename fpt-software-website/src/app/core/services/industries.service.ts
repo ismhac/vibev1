@@ -22,6 +22,10 @@ export interface IndustryListResponse {
   limit: number;
 }
 
+export interface FilterOptions {
+  statuses: string[];
+}
+
 export interface CreateIndustryRequest {
   name: string;
   description?: string;
@@ -44,13 +48,19 @@ export class IndustriesService {
   private http = inject(HttpClient);
 
   /**
-   * Get all industries with pagination
+   * Get all industries with pagination, search and status filter
    * @param page - Page number (default: 1)
    * @param limit - Number of items per page (default: 10)
    * @param search - Search term (optional)
+   * @param status - Filter by status (optional)
    * @returns Observable of industry list response
    */
-  getIndustries(page = 1, limit = 10, search?: string): Observable<IndustryListResponse> {
+  getIndustries(
+    page = 1, 
+    limit = 10, 
+    search?: string, 
+    status?: string
+  ): Observable<IndustryListResponse> {
     const params: any = {
       page: page.toString(),
       limit: limit.toString(),
@@ -58,6 +68,9 @@ export class IndustriesService {
 
     if (search && search.trim()) {
       params.search = search.trim();
+    }
+    if (status && status.trim()) {
+      params.status = status.trim();
     }
 
     return this.http.get<IndustryListResponse>(this.apiUrl, { params });
@@ -98,5 +111,13 @@ export class IndustriesService {
    */
   deleteIndustry(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  /**
+   * Get filter options for industries
+   * @returns Observable of filter options
+   */
+  getFilterOptions(): Observable<FilterOptions> {
+    return this.http.get<FilterOptions>(`${this.apiUrl}/filters`);
   }
 }

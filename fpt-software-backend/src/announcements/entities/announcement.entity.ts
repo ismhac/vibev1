@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity } from '../../common/interfaces/common.interface';
 
 @Entity('announcements')
-export class Announcement {
+export class Announcement implements BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -31,7 +32,7 @@ export class Announcement {
   isPublished: boolean;
 
   @Column({ type: 'timestamp', nullable: true })
-  publishedAt: Date;
+  publishedAt: Date | null;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -40,10 +41,10 @@ export class Announcement {
   updatedAt: Date;
 
   @Column({ type: 'json', nullable: true })
-  tags: string[];
+  tags: string[] | null;
 
   @Column({ type: 'varchar', length: 500, nullable: true })
-  imageUrl: string;
+  imageUrl: string | null;
 
   @Column({ type: 'int', nullable: true })
   readTime: number; // in minutes

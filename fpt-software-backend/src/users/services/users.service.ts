@@ -52,15 +52,79 @@ export class UsersService {
     }
   }
 
-  async findAll(page = 1, limit = 10): Promise<UserListResponseDto> {
-    this.logger.log(`Fetching users - page: ${page}, limit: ${limit}`);
+  async findAll(
+    page = 1, 
+    limit = 10, 
+    search?: string, 
+    role?: string, 
+    status?: string
+  ): Promise<UserListResponseDto> {
+    this.logger.log(`Fetching users - page: ${page}, limit: ${limit}, search: ${search || 'none'}, role: ${role || 'all'}, status: ${status || 'all'}`);
     
     try {
-      const [users, total] = await this.userRepository.findAndCount({
-        skip: (page - 1) * limit,
-        take: limit,
-        order: { createdAt: 'DESC' },
-      });
+      const queryBuilder = this.userRepository.createQueryBuilder('user');
+      
+      // Build where conditions array
+      const whereConditions: string[] = [];
+      const parameters: any = {};
+      
+      // Apply search filter
+      if (search && search.trim()) {
+        const searchTerm = search.trim();
+        
+        // Check if search term is a number (for ID search)
+        const isNumeric = !isNaN(Number(searchTerm));
+        
+        if (isNumeric) {
+          // Search by ID
+          whereConditions.push('user.id = :searchId');
+          parameters.searchId = parseInt(searchTerm);
+        } else {
+          // Search by name or email
+          whereConditions.push('(user.fullName ILIKE :search OR user.email ILIKE :search)');
+          parameters.search = `%${searchTerm}%`;
+        }
+      }
+      
+      // Apply role filter
+      if (role && role.trim()) {
+        const roleFilter = role.trim().toLowerCase();
+        whereConditions.push('user.role = :role');
+        parameters.role = roleFilter;
+      }
+      
+      // Apply status filter
+      if (status && status.trim()) {
+        const statusFilter = status.trim().toLowerCase();
+        let isActive: boolean | null = null;
+        
+        if (statusFilter === 'active' || statusFilter === 'true') {
+          isActive = true;
+        } else if (statusFilter === 'inactive' || statusFilter === 'false') {
+          isActive = false;
+        }
+        
+        if (isActive !== null) {
+          whereConditions.push('user.isActive = :isActive');
+          parameters.isActive = isActive;
+        }
+      }
+      
+      // Apply all conditions
+      if (whereConditions.length > 0) {
+        queryBuilder.where(whereConditions.join(' AND '), parameters);
+        this.logger.log(`Applied conditions: ${whereConditions.join(' AND ')}`);
+        this.logger.log(`Parameters:`, parameters);
+      }
+      
+      // Apply ordering and pagination
+      const [users, total] = await queryBuilder
+        .orderBy('user.createdAt', 'DESC')
+        .skip((page - 1) * limit)
+        .take(limit)
+        .getManyAndCount();
+        
+      this.logger.log(`Query returned ${users.length} users out of ${total} total`);
 
       const userDtos = users.map(user => this.mapToResponseDto(user));
 
@@ -72,6 +136,27 @@ export class UsersService {
       };
     } catch (error) {
       this.logger.error('Error fetching users:', error);
+      throw error;
+    }
+  }
+
+  async getFilterOptions(): Promise<{ roles: string[], statuses: string[] }> {
+    this.logger.log('Fetching filter options for users');
+    
+    try {
+      // Get unique roles from database
+      const roles = await this.userRepository
+        .createQueryBuilder('user')
+        .select('DISTINCT user.role', 'role')
+        .getRawMany()
+        .then(results => results.map(r => r.role));
+
+      return {
+        roles: roles.sort(),
+        statuses: ['active', 'inactive']
+      };
+    } catch (error) {
+      this.logger.error('Error fetching filter options:', error);
       throw error;
     }
   }

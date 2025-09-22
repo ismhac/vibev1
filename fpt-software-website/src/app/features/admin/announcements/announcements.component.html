@@ -11,13 +11,82 @@
         <input
           type="text"
           [(ngModel)]="searchTerm"
-          placeholder="Search announcements..."
+          placeholder="Search by title, content, summary, or author..."
           class="search-input"
           (keyup.enter)="onSearch()"
         />
         <button class="search-btn" (click)="onSearch()">Search</button>
       </div>
-      <button class="add-btn" (click)="onAddAnnouncement()">Add Announcement</button>
+      <div class="action-buttons">
+        <button class="filter-btn" (click)="onToggleFilters()">
+          {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+        </button>
+        <button class="clear-btn" (click)="onClearFilters()">Clear All</button>
+        <button class="add-btn" (click)="onAddAnnouncement()">Add Announcement</button>
+      </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div *ngIf="showFilters" class="filters-section">
+      <div class="filter-group">
+        <label for="category-filter">Category:</label>
+        <select 
+          id="category-filter"
+          [(ngModel)]="selectedCategory" 
+          (change)="onFilterChange()"
+          class="filter-select"
+        >
+          <option value="">All Categories</option>
+          <option *ngFor="let category of filterOptions.categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="priority-filter">Priority:</label>
+        <select 
+          id="priority-filter"
+          [(ngModel)]="selectedPriority" 
+          (change)="onFilterChange()"
+          class="filter-select"
+        >
+          <option value="">All Priorities</option>
+          <option *ngFor="let priority of filterOptions.priorities" [value]="priority">
+            {{ priority | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="status-filter">Status:</label>
+        <select 
+          id="status-filter"
+          [(ngModel)]="selectedStatus" 
+          (change)="onFilterChange()"
+          class="filter-select"
+        >
+          <option value="">All Status</option>
+          <option *ngFor="let status of filterOptions.statuses" [value]="status">
+            {{ status | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="author-filter">Author:</label>
+        <select 
+          id="author-filter"
+          [(ngModel)]="selectedAuthor" 
+          (change)="onFilterChange()"
+          class="filter-select"
+        >
+          <option value="">All Authors</option>
+          <option *ngFor="let author of filterOptions.authors" [value]="author">
+            {{ author }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <!-- Error Message -->

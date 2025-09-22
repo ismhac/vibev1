@@ -46,17 +46,28 @@ export class AnnouncementsController {
   }
 
   /**
-   * Get all published announcements with pagination
+   * Get all published announcements with pagination and filters
    * @param page - Page number (optional, default: 1)
    * @param limit - Number of items per page (optional, default: 10)
-   * @returns Paginated list of published announcements
+   * @param search - Search term for title, content, summary, author (optional)
+   * @param category - Filter by category (optional)
+   * @param priority - Filter by priority: low, medium, high (optional)
+   * @param status - Filter by status: published, unpublished (optional)
+   * @param author - Filter by author (optional)
+   * @returns Paginated list of filtered announcements
    */
   @Get()
   async findAll(
     @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
+    @Query('search') search?: string,
+    @Query('category') category?: string,
+    @Query('priority') priority?: string,
+    @Query('status') status?: string,
+    @Query('author') author?: string,
   ): Promise<AnnouncementListResponseDto> {
-    return this.announcementsService.findAll(page, limit);
+    console.log('Announcements Controller received params:', { page, limit, search, category, priority, status, author });
+    return this.announcementsService.findAllWithFilters(page, limit, search, category, priority, status, author);
   }
 
   /**
@@ -75,6 +86,20 @@ export class AnnouncementsController {
     @Query('search') search?: string,
   ): Promise<AnnouncementListResponseDto> {
     return this.announcementsService.findAllForAdmin(page, limit, search);
+  }
+
+  /**
+   * Get filter options for announcements
+   * @returns Available filter options (categories, priorities, statuses, authors)
+   */
+  @Get('filters')
+  async getFilterOptions(): Promise<{
+    categories: string[];
+    priorities: string[];
+    statuses: string[];
+    authors: string[];
+  }> {
+    return this.announcementsService.getFilterOptions();
   }
 
   /**
